@@ -2,11 +2,12 @@
 
 **Conteúdo da Disciplina**: Grafos 2<br>
 
+
 ## Alunos
 |Matrícula | Aluno |
 | -- | -- |
 | 20/0059980  |  Pedro Miguel Martins de Oliveira dos Santos |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| 21/1062910  |  Daniel Nunes Duarte |
 
 ## Sobre 
 Descreva os objetivos do seu projeto e como ele funciona. 
