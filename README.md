@@ -60,6 +60,10 @@ pip install -r requirements.txt
 2. Siga as instruções exibidas na interface para criar grafos, visualizar e aplicar algoritmos.
 3. Os resultados e visualizações serão exibidos em janelas gráficas.
 
+## Apresentação
+
+Vídeo disponível em: [youtube](https://youtu.be/VFubOjOEoFY)
+
 ## Outros
 
 Para dúvidas, sugestões ou melhorias, entre em contato com os autores.
