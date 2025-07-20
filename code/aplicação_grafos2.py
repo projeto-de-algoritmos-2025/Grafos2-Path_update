@@ -71,7 +71,7 @@ def dijkstra(grafo, no_origem, no_destino):
         return []
     
 class AplicacaoLabirinto:
-    def init(self, janela_principal):
+    def __init__(self, janela_principal):
         self.janela = janela_principal
         self.janela.title("Aplicação de Labirinto com Grafos e Pesos")
         # Define cor de fundo bege claro
@@ -218,11 +218,11 @@ class AplicacaoLabirinto:
             rotulos_arestas_caminho = nx.get_edge_attributes(subgrafo_caminho, 'weight')
             nx.draw_networkx_edge_labels(subgrafo_caminho, posicoes_caminho, edge_labels=rotulos_arestas_caminho, ax=self.eixo_caminho)
 
+
         self.eixo_caminho.set_title("Menor Caminho")
         self.tela_caminho.draw()
 
-if name == "main":
+if __name__ == "__main__":
     janela = tk.Tk()
-    # Para usar as partes separadamente, você precisaria instanciar a classe
-    # app = AplicacaoLabirinto(janela) 
+    app = AplicacaoLabirinto(janela)
     janela.mainloop()
