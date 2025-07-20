@@ -162,3 +162,67 @@ class AplicacaoLabirinto:
             nx.draw_networkx_edge_labels(self.grafo_atual, posicoes, edge_labels=rotulos_arestas, ax=self.eixo_labirinto)
         self.eixo_labirinto.set_title("Labirinto Completo")
         self.tela_labirinto.draw()
+
+    def _executar_atualizacao_labirinto(self):
+        """Lê a entrada, gera um novo labirinto e o desenha."""
+        try:
+            numero_de_vertices = int(self.entrada_num_vertices.get())
+            if not (2 <= numero_de_vertices <= 25):
+                messagebox.showerror("Erro de Entrada", "Por favor, insira um número de vértices entre 2 e 25.")
+                return
+        except ValueError:
+            messagebox.showerror("Erro de Entrada", "Entrada inválida. Por favor, insira um número inteiro.")
+            return
+            
+        self._gerar_labirinto(numero_de_vertices)
+        self._desenhar_labirinto()
+        
+        self.eixo_caminho.clear()
+        self.eixo_caminho.set_title("Menor Caminho")
+        self.tela_caminho.draw()
+        self.rotulo_resultado.config(text="")
+        self.entrada_no_inicial.delete(0, tk.END)
+
+    def _executar_calculo_caminho(self):
+        """Calcula e desenha o Menor Caminho na tela inferior."""
+        no_inicial_str = self.entrada_no_inicial.get().strip().upper()
+
+        if not self.grafo_atual:
+            self.rotulo_resultado.config(text="Gere um labirinto primeiro.")
+            return
+
+        if not no_inicial_str:
+            self.rotulo_resultado.config(text="Erro: Digite um nó de partida.")
+            return
+            
+        if no_inicial_str not in self.grafo_atual.nodes:
+            self.rotulo_resultado.config(text=f"Erro: Nó '{no_inicial_str}' não existe no labirinto.")
+            return
+
+        caminho_encontrado = dijkstra(self.grafo_atual, no_origem=no_inicial_str, no_destino=self.nome_no_meta)
+        
+        self.eixo_caminho.clear()
+
+        if not caminho_encontrado:
+            self.rotulo_resultado.config(text=f"Não há caminho de '{no_inicial_str}' até o Fim.")
+        else:
+            custo_total = nx.path_weight(self.grafo_atual, caminho_encontrado, weight='weight')
+            self.rotulo_resultado.config(text=f"Caminho: {' → '.join(caminho_encontrado)} (Custo: {custo_total})")
+            subgrafo_caminho = self.grafo_atual.subgraph(caminho_encontrado)
+            posicoes_caminho = nx.spring_layout(subgrafo_caminho, k=0.8, seed=42)
+            # Bolinhas laranja, exceto o nó Fim que permanece vermelho
+            cores_dos_nos_caminho = ['orange' if no != self.nome_no_meta else 'red' for no in subgrafo_caminho.nodes()]
+            nx.draw(subgrafo_caminho, posicoes_caminho, ax=self.eixo_caminho, with_labels=True, node_size=700,
+                    node_color=cores_dos_nos_caminho, font_size=10, font_weight='bold',
+                    width=2.0, edge_color='blue')
+            rotulos_arestas_caminho = nx.get_edge_attributes(subgrafo_caminho, 'weight')
+            nx.draw_networkx_edge_labels(subgrafo_caminho, posicoes_caminho, edge_labels=rotulos_arestas_caminho, ax=self.eixo_caminho)
+
+        self.eixo_caminho.set_title("Menor Caminho")
+        self.tela_caminho.draw()
+
+if name == "main":
+    janela = tk.Tk()
+    # Para usar as partes separadamente, você precisaria instanciar a classe
+    # app = AplicacaoLabirinto(janela) 
+    janela.mainloop()
