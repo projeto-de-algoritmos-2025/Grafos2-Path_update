@@ -133,3 +133,32 @@ class AplicacaoLabirinto:
         # Estilo ttk para frames bege
         estilo = ttk.Style()
         estilo.configure("Bege.TFrame", background="#F5F5DC")
+
+    def _gerar_labirinto(self, numero_de_vertices):
+        """Cria um novo grafo que representa o labirinto."""
+        numero_de_arestas = random.randint(numero_de_vertices, numero_de_vertices * 2)
+        
+        grafo_temporario = nx.gnm_random_graph(numero_de_vertices, numero_de_arestas)
+        grafo_temporario.add_node(self.nome_no_meta)
+        
+        mapeamento_nomes = {i: chr(65 + i) for i in range(numero_de_vertices - 1)}
+        mapeamento_nomes[numero_de_vertices - 1] = self.nome_no_meta
+        self.grafo_atual = nx.relabel_nodes(grafo_temporario, mapeamento_nomes)
+        
+        for no1, no2 in self.grafo_atual.edges():
+            self.grafo_atual.edges[no1, no2]['weight'] = random.randint(1, 10)
+
+    def _desenhar_labirinto(self):
+        """Desenha o grafo completo na tela superior."""
+        self.eixo_labirinto.clear()
+        if self.grafo_atual:
+            posicoes = nx.spring_layout(self.grafo_atual, k=0.8, seed=42)
+            # Bolinhas laranja, exceto o nó Fim que permanece vermelho
+            cores_dos_nos = ['orange' if no != self.nome_no_meta else 'red' for no in self.grafo_atual.nodes()]
+            nx.draw(self.grafo_atual, posicoes, ax=self.eixo_labirinto, with_labels=True, node_size=700,
+                    node_color=cores_dos_nos, font_size=10, font_weight='bold',
+                    width=1.5, edge_color='gray')
+            rotulos_arestas = nx.get_edge_attributes(self.grafo_atual, 'weight')
+            nx.draw_networkx_edge_labels(self.grafo_atual, posicoes, edge_labels=rotulos_arestas, ax=self.eixo_labirinto)
+        self.eixo_labirinto.set_title("Labirinto Completo")
+        self.tela_labirinto.draw()
