@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.Grafos2/
+Grafos2/
 
 .Python
 build/
