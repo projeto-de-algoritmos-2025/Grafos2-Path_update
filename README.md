@@ -22,19 +22,15 @@ Principais funcionalidades:
 
 ## Screenshots
 
-### Visualização de Grafo
+### Visualização de Grafo → Execução de Algoritmo →  Resultado de Caminho Mínimo
 
 ![Visualização de Grafo](./imgs/test%20(1).png)
 
 ---
 
-### Execução de Algoritmo
-
 ![Execução de Algoritmo](./imgs/test%20(2).png)
 
 ---
-
-### Resultado de Caminho Mínimo
 
 ![Resultado de Caminho Mínimo](./imgs/test%20(3).png)
 
